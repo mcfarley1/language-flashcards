@@ -199,6 +199,15 @@ def native_card():
     canvas.itemconfig(card_image, image=card_back_img)
 
 
+# ---------------------------- REVERSE ORDER ------------------------------- #
+def reverse_order():
+    global language_foreign, language_native
+    place_holder = language_foreign
+    language_foreign = language_native
+    language_native = place_holder
+    foreign_card()
+
+
 # ---------------------------- WORD KNOWN ------------------------------- #
 def word_known():
     try:
@@ -256,6 +265,10 @@ known_button.grid(row=2, column=2)
 choose_language_level = Button(text="Set Language and Level", bg=BUTTON_COLOR, fg="white", font=("Ariel", 15),
                                command=set_language_level, highlightthickness=0)
 choose_language_level.grid(row=0, column=0, sticky="w", pady=20)
+
+reverse_button = Button(text="Reverse", bg=BUTTON_COLOR, fg="white", font=("Ariel", 15), command=reverse_order,
+                        highlightthickness=0)
+reverse_button.grid(row=0, column=1, pady=20)
 
 reset_button = Button(text="Reset Progress", bg=BUTTON_COLOR, fg="white", font=("Ariel", 15), command=make_dataframe,
                       highlightthickness=0)

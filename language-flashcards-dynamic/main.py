@@ -92,13 +92,6 @@ def set_language_level():
     selection_window.mainloop()
 
 
-# ---------------------------- SET LEVEL ------------------------------- #
-# def set_level():
-#     level_window = Toplevel(window)
-#     level_window.title("Set Level")
-#     level_window.config(bg=BACKGROUND_COLOR, padx=50, pady=50)
-
-
 # ---------------------------- LANGUAGES ------------------------------- #
 def languages():
     with open("data/language.json", "r") as choice_file:
@@ -267,9 +260,6 @@ choose_language_level.grid(row=0, column=0, sticky="w", pady=20)
 reset_button = Button(text="Reset Progress", bg=BUTTON_COLOR, fg="white", font=("Ariel", 15), command=make_dataframe,
                       highlightthickness=0)
 reset_button.grid(row=0, column=2, sticky="e", pady=20)
-
-# choose_level = Button(text="Level", command=set_level, highlightthickness=0)
-# choose_level.grid(row=0, column=2, pady=15)
 
 word_index = 0
 little_dict = {}

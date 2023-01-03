@@ -188,7 +188,7 @@ def foreign_card():
         canvas.itemconfig(card_word_text, text=foreign_word, fill="black")
         canvas.itemconfig(card_language_text, text=language_foreign, fill="black")
         canvas.itemconfig(card_image, image=card_front_img)
-        window.after(3000, func=native_card)
+        flip_timer = window.after(3000, func=native_card)
 
 
 # ---------------------------- NATIVE CARD ------------------------------- #

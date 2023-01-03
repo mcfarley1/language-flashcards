@@ -16,13 +16,14 @@ def save_settings():
     with open("data/language.json", "w") as setting_file:
         json.dump(setting_dict, setting_file, indent=4)
     make_dataframe()
-    foreign_card()
+    clear_card()
     selection_window.destroy()
 
 
 # ---------------------------- SET LANGUAGE AND LEVEL ------------------------------- #
 def set_language_level():
-    global radio_state_language, radio_state_level, selection_window
+    global radio_state_language, radio_state_level, selection_window, flip_timer
+    window.after_cancel(flip_timer)
 
     with open("data/language.json", "r") as choice_file:
         choice_dict = json.load(choice_file)
@@ -152,10 +153,8 @@ def levels():
 
 # ---------------------------- DATAFRAME ------------------------------- #
 def make_dataframe():
-    global language_foreign
-    global language_native
-    global small_frame
-    global data_list
+    global language_foreign, language_native, small_frame, data_list, flip_timer
+    window.after_cancel(flip_timer)
     language_choice_reset = languages()
     language_foreign = language_choice_reset[0]
     language_file = language_choice_reset[1]
@@ -199,13 +198,21 @@ def native_card():
     canvas.itemconfig(card_image, image=card_back_img)
 
 
+# ---------------------------- CLEAR CARD ------------------------------- #
+def clear_card():
+    canvas.itemconfig(card_word_text, text="", fill="black")
+    canvas.itemconfig(card_language_text, text="", fill="black")
+    canvas.itemconfig(card_image, image=card_front_img)
+
+
 # ---------------------------- REVERSE ORDER ------------------------------- #
 def reverse_order():
-    global language_foreign, language_native
+    global language_foreign, language_native, flip_timer
+    window.after_cancel(flip_timer)
     place_holder = language_foreign
     language_foreign = language_native
     language_native = place_holder
-    foreign_card()
+    clear_card()
 
 
 # ---------------------------- WORD KNOWN ------------------------------- #
@@ -221,9 +228,9 @@ def word_known():
         foreign_card()
 
 
-# ---------------------------- WORD UNKNOWN ------------------------------- #
-def word_unknown():
-    foreign_card()
+# ---------------------------- WASTE TIME ------------------------------- #
+def waste_time():
+    pass
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -243,7 +250,7 @@ window = Tk()
 window.title("Flashy")
 window.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
 
-flip_timer = window.after(3000, func=native_card)
+flip_timer = window.after(3000, waste_time)
 
 canvas = Canvas(width=800, height=526)
 card_front_img = PhotoImage(file="images/card_front.png")
@@ -255,7 +262,7 @@ card_language_text = canvas.create_text(400, 150, text="", font=("Ariel", 40, "i
 card_word_text = canvas.create_text(400, 263, text="", font=("Ariel", 60, "bold"))
 
 cross_image = PhotoImage(file="images/wrong.png")
-unknown_button = Button(image=cross_image, command=word_unknown, highlightthickness=0)
+unknown_button = Button(image=cross_image, command=foreign_card, highlightthickness=0)
 unknown_button.grid(row=2, column=0)
 
 check_image = PhotoImage(file="images/right.png")
@@ -266,9 +273,13 @@ choose_language_level = Button(text="Set Language and Level", bg=BUTTON_COLOR, f
                                command=set_language_level, highlightthickness=0)
 choose_language_level.grid(row=0, column=0, sticky="w", pady=20)
 
+begin_button = Button(text="Begin", bg=BUTTON_COLOR, fg="white", font=("Ariel", 15), command=foreign_card,
+                      highlightthickness=0)
+begin_button.grid(row=0, column=1, sticky="w", pady=20)
+
 reverse_button = Button(text="Reverse", bg=BUTTON_COLOR, fg="white", font=("Ariel", 15), command=reverse_order,
                         highlightthickness=0)
-reverse_button.grid(row=0, column=1, pady=20)
+reverse_button.grid(row=0, column=1, sticky="e", pady=20)
 
 reset_button = Button(text="Reset Progress", bg=BUTTON_COLOR, fg="white", font=("Ariel", 15), command=make_dataframe,
                       highlightthickness=0)
@@ -276,7 +287,6 @@ reset_button.grid(row=0, column=2, sticky="e", pady=20)
 
 word_index = 0
 little_dict = {}
-foreign_card()
 
 
 window.mainloop()

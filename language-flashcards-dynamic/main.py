@@ -154,8 +154,7 @@ def levels():
 
 # ---------------------------- DATAFRAME ------------------------------- #
 def make_dataframe():
-    global language_foreign, language_native, small_frame, data_list, flip_timer
-    window.after_cancel(flip_timer)
+    global language_foreign, language_native, small_frame, data_list
     language_choice_reset = languages()
     language_foreign = language_choice_reset[0]
     language_file = language_choice_reset[1]

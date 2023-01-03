@@ -16,6 +16,7 @@ def save_settings():
     with open("data/language.json", "w") as setting_file:
         json.dump(setting_dict, setting_file, indent=4)
     make_dataframe()
+    messagebox.showinfo(title="Save", message="Your changes have been saved.")
     clear_card()
     selection_window.destroy()
 

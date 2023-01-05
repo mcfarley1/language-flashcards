@@ -185,7 +185,7 @@ def foreign_card():
             "Reset or choose another level.",
         )
         return
-    translation_idx = random.randrange(0, len(TRANSLATION_INDICES) - 1)
+    translation_idx = random.randrange(0, len(TRANSLATION_INDICES))
     # move the selected translation to the end of the indices
     # this way it will be removed if the user got it right
     # because word_known() always removes the last index
